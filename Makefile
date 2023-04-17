@@ -1,7 +1,6 @@
-
+#target remote | qemu-system-x86_64 -hda ./bin/boot.bin -S -gdb stdio
 all:
-	nasm -f bin ./boot.asm -o ./boot.bin
-	dd if=./message.txt >> ./boot.bin
-	dd if=/dev/zero bs=512 count=1 >> ./boot.bin
+	nasm -f bin ./src/boot/boot.asm -o ./bin/boot.bin
 clean:
-	rm boot.bin;
+	rm -rf ./bin/boot.bin;
+
