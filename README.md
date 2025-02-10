@@ -24,4 +24,5 @@ SimpleOS is a basic operating system developed as a learning project to understa
    git clone https://github.com/ashirs2/SimpleOS.git
    cd SimpleOS
    make all
+   ./build.sh
    qemu-system-x86_64 -hda ./bin/os.bin
