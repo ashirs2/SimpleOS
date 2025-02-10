@@ -8,7 +8,6 @@ DATA_SEG equ gdt_data - gdt_start
 jmp short start
 nop
 
-times 33 db 0
 
 start:
     jmp 0:step2
@@ -22,14 +21,20 @@ step2:
     mov sp, 0x7c00
     sti ; Enables Interrupts
 
+
+
+; to go into protected mode there need to be a few things done
+;Disable Interupts, Enable A20 line , and load the Gloabl Descriptor table
 .load_protected:
-    cli
-    lgdt[gdt_descriptor]
+    cli ; disbale interupts
+    lgdt[gdt_descriptor] ; load GDT register with start address of Global Descriptor Table 
     mov eax, cr0
-    or eax, 0x1
+    or eax, 0x1 ; set PE(Protection Enable) bit in CR0(Control Register 0)
     mov cr0, eax
     jmp CODE_SEG:load32
-
+    ; ^ Perform far jump to selector 08h(offset into GDT, pointing at a 32bit PM code segment descriptor)
+    ; to load CS(Code Segement Regsiter) with proper PM32 descriptor
+    
 ;GDT
 gdt_start:
 gdt_null:
